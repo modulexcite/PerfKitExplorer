@@ -180,23 +180,25 @@ QueryBuilderService.prototype.getAbsoluteDateFunction = function(dateFilter) {
 
 
 /**
- * Replaces any tokens in the provided query with values from the params.
+ * Replaces any tokens in the provided string with values from the params.
  * Tokens are identified by strings that start and end with strings defined
  * by TOKEN_START_SYMBOL and TOKEN_END_SYMBOL.  By default, this would look
  * like %%TOKEN_NAME%%.
  *
- * @param {string} query A SQL statement to modify.
+ * @param {string} value A string to modify.
  * @param {Array.<!DashboardParam>} params A list of parameters.
  */
-QueryBuilderService.prototype.replaceTokens = function(query, params) {
-  angular.forEach(params, angular.bind(this, function(param) {
-    var find = this.TOKEN_START_SYMBOL + param.name + this.TOKEN_END_SYMBOL;
-    var re = new RegExp(find, 'g');
+QueryBuilderService.prototype.replaceTokens = function(value, params) {
+  if (!goog.string.isEmptySafe(value)) {
+    angular.forEach(params, angular.bind(this, function(param) {
+      var find = this.TOKEN_START_SYMBOL + param.name + this.TOKEN_END_SYMBOL;
+      var re = new RegExp(find, 'g');
 
-    query = query.replace(re, param.value);
-  }));
+      value = value.replace(re, param.value);
+    }));
+  }
 
-  return query;
+  return value;
 };
 
 
