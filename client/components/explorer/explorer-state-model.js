@@ -30,13 +30,51 @@ const explorer = p3rf.perfkit.explorer;
  * @template T
  * @ngInject
  */
-explorer.components.explorer.ExplorerStateModel = function() {
+explorer.components.explorer.ExplorerStateModel = function(
+    stateService, stateName) {
   /**
    * Provides a dictionary of all entities, keyed by ID.
-   * @export {!Object<key, T>}
+   * @export {!Object<string, T>}
    */
   this.all = {};
-};
 
+  Object.defineProperty(this, 'selectedId', {
+    get: function() {
+      return stateService.params[stateName];
+    }
+  });
+
+  /**
+   * Indicates the id of the selected entity.
+   * @export {?string}
+   */
+  this.selectedId = null;
+
+  /**
+   * Returns the item matching the selected id.
+   */
+  Object.defineProperty(this, 'selected', {
+    get: function() {
+      if (!goog.isDefAndNotNull(this.selectedId)) {
+        return null;
+      } else {
+        let selected = this.all[this.selectedId];
+
+        return selected;
+      }
+    }
+  });
+};
+const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
+
+
+/**
+ * Clears the selection and items from the list.
+ * @export
+ */
+ExplorerStateModel.prototype.clear = function() {
+  this.selectedId = null;
+  this.all = {};
+};
 
 });  // goog.scope

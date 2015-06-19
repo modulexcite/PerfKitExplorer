@@ -33,7 +33,7 @@ const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
  * @constructor
  * @ngInject
  */
-explorer.components.explorer.ExplorerStateService = function() {
+explorer.components.explorer.ExplorerStateService = function($state) {
   /**
    * Provides storage for a list of dashboards and selection context.
    * @type {?DashboardModel}
@@ -46,7 +46,7 @@ explorer.components.explorer.ExplorerStateService = function() {
    */
   this.containers =
       /** @type {!ExplorerStateModel<ContainerWidgetModel>} */
-      (new ExplorerStateModel());
+      (new ExplorerStateModel($state, 'container'));
 
   /**
    * Provides storage for a list of widgets and selection context.
@@ -54,7 +54,7 @@ explorer.components.explorer.ExplorerStateService = function() {
    */
   this.widgets =
       /** @type {!ExplorerStateModel<WidgetModel>} */
-      (new ExplorerStateModel());
+      (new ExplorerStateModel($state, 'widget'));
 
   /**
    * Provides storage for a list of sidebar tabs and selection context.
@@ -62,7 +62,7 @@ explorer.components.explorer.ExplorerStateService = function() {
    */
   this.tabs =
       /** @type {!ExplorerStateModel<SidebarTabModel>} */
-      (new ExplorerStateModel());
+      (new ExplorerStateModel($state, 'tab'));
 
   /**
    * Provides storage for a list of footer tabs and selection context.
@@ -70,7 +70,7 @@ explorer.components.explorer.ExplorerStateService = function() {
    */
   this.footerTabs =
       /** @type {!ExplorerStateModel<FooterTabModel>} */
-      (new ExplorerStateModel());
+      (new ExplorerStateModel($state, 'footerTab'));
 
   /**
    * Returns true if the selected widget is maximized, otherwise false.
